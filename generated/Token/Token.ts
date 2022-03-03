@@ -362,7 +362,7 @@ export class Transfer__Params {
   }
 }
 
-export class Contract__getRoyaltiesResult {
+export class Token__getRoyaltiesResult {
   value0: Array<Address>;
   value1: Array<BigInt>;
 
@@ -381,7 +381,7 @@ export class Contract__getRoyaltiesResult {
 
 export class Token extends ethereum.SmartContract {
   static bind(address: Address): Token {
-    return new Token("Contract", address);
+    return new Token("Token", address);
   }
 
   balanceOf(owner: Address): BigInt {
@@ -573,14 +573,14 @@ export class Token extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  getRoyalties(tokenId: BigInt): Contract__getRoyaltiesResult {
+  getRoyalties(tokenId: BigInt): Token__getRoyaltiesResult {
     let result = super.call(
       "getRoyalties",
       "getRoyalties(uint256):(address[],uint256[])",
       [ethereum.Value.fromUnsignedBigInt(tokenId)]
     );
 
-    return new Contract__getRoyaltiesResult(
+    return new Token__getRoyaltiesResult(
       result[0].toAddressArray(),
       result[1].toBigIntArray()
     );
@@ -588,7 +588,7 @@ export class Token extends ethereum.SmartContract {
 
   try_getRoyalties(
     tokenId: BigInt
-  ): ethereum.CallResult<Contract__getRoyaltiesResult> {
+  ): ethereum.CallResult<Token__getRoyaltiesResult> {
     let result = super.tryCall(
       "getRoyalties",
       "getRoyalties(uint256):(address[],uint256[])",
@@ -599,7 +599,7 @@ export class Token extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Contract__getRoyaltiesResult(
+      new Token__getRoyaltiesResult(
         value[0].toAddressArray(),
         value[1].toBigIntArray()
       )
